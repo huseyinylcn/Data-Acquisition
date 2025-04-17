@@ -1,1 +1,1 @@
-jashdask
+print("deneme")
