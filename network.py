@@ -64,17 +64,36 @@ class Network():
             print(durum[0])
             
             
-        
+        self.wlan = self.wlan
         return self.wlan
 
     def control(self):
-         pass
-Network("Hy","12345678",20)
+        if self.wlan is None or not self.wlan.isconnected():
+            self.wifi_connect()
+            return False
+        
+        try:
+            yanit = urequests.get('http://www.google.com', timeout=5)
+            yanit.close()
+            return True
+        except:
+            return False
+        
+
+
+net = Network("Hy","12345678",20)
 
 
 
-while True :
-	pass
+
+
+while True:
+
+    result = net.control()
+    print(result)
+    time.sleep(10)
+
+
 
 
 
