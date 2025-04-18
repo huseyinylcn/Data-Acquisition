@@ -4,11 +4,13 @@ import time
 
 class ADC:
 
+
+
+
+
     q = multiprocessing.Queue()
-
-
     def __init__(self):
-        mp = multiprocessing.Process(target=self.data_production, args=(self.q,))
+        mp = multiprocessing.Process(target=self.add_queue, args=(self.q,))
         mp.start()
 
 
@@ -33,10 +35,11 @@ class ADC:
 
     def add_queue(self, q):
         while True:
-            veri = self.data_production
+            veri = self.data_production()
             if veri:
                 q.put(veri)
             time.sleep(1)
+
 
 
 
@@ -53,6 +56,9 @@ class ADC:
 
 
 
+
 if __name__ == "__main__":
     adc = ADC()
     adc.data_read()
+
+
