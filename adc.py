@@ -45,7 +45,10 @@ class ADC:
 
 
     def data_read(self):
+<<<<<<< Updated upstream
         while True:
+=======
+>>>>>>> Stashed changes
             try:
                 veri = self.q.get(timeout=5)
                 print(veri)
@@ -55,8 +58,11 @@ class ADC:
 
 
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 if __name__ == "__main__":
     adc = ADC()
     adc.data_read()

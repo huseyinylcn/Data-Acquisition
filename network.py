@@ -81,17 +81,16 @@ class Network():
         
 
 
-net = Network("Hy","12345678",20)
 
 
+def netFunc():
+   net = Network("Hy","12345678",20)
+   while True:
 
+        result = net.control()
+        print(result)
+        time.sleep(10)
 
-
-while True:
-
-    result = net.control()
-    print(result)
-    time.sleep(10)
 
 
 

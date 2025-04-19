@@ -7,6 +7,7 @@ PORT = 50000      # Herhangi bir port seçilebilir
 # Soket oluştur
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
+
 server_socket.listen(1)
 
 print(f"Sunucu {PORT} portunu dinliyor...")
@@ -22,4 +23,3 @@ while True:
     print("Gelen veri:", data.decode())
 
 
-conn.close()

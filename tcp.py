@@ -10,27 +10,35 @@ class TCP:
         self.tcpConnect()
 
 
-
     def tcpConnect(self):
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client_socket.connect((self.tcpIp, self.port))
-        except:
-            pass
+            self.client_socket.settimeout(5)
+            return True
+        
+        except socket.timeout:
+            return "0x403" 
+        except ConnectionRefusedError:
+            return "0x404"
+        except OSError as e:
+            return "0x403"
+        except Exception as e:
+            return "0x403"
+        
+
             
 
     def data_push(self,data):
         try:
-            
             data = json.dumps(data).encode()
             self.client_socket.sendall(data)
+            return True
         except Exception as e:
-            print(e)
+            return False
+
 
 
 tcp = TCP('127.0.0.1',50000)
 
 
-while True:
-    tcp.data_push([1,1,1,1])
-    time.sleep(0.2)
