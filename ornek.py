@@ -3,8 +3,6 @@ import serial
 from db import dbWrite
 
 
-
-
 class SerialPortRead:
     _instance = None 
     q = multiprocessing.Queue()

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import random
 import multiprocessing
 import time
@@ -42,3 +43,5 @@ class ADC:
 if __name__ == "__main__":
     adc = ADC()
     adc.data_read()
+=======
+>>>>>>> Stashed changes
