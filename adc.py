@@ -1,6 +1,7 @@
 import random
 import multiprocessing
 import time
+import sqlite3
 
 class ADC:
 
@@ -17,6 +18,28 @@ class ADC:
 
 
 
+
+
+    def veritabanina_kaydet(veri):
+        try:
+            conn = sqlite3.connect("veriler.db")
+            cursor = conn.cursor()
+            cursor.execute('''CREATE TABLE IF NOT EXISTS sismik_veriler (
+                                tarih TEXT,
+                                deger1 INTEGER,
+                                deger2 INTEGER,
+                                deger3 INTEGER
+                            )''')
+            cursor.execute("INSERT INTO sismik_veriler VALUES (?, ?, ?, ?)", veri)
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            print(f"Veritabanı hatası: {e}")
+ 
+ 
+ 
+ 
+ 
     def data_production(self):
         try:
             sayi = random.randint(10000, 99999)
@@ -48,7 +71,9 @@ class ADC:
         while True:
             try:
                 veri = self.q.get(timeout=5)
-                print(veri)
+                print(veri)            
+                self.veritabanina_kaydet(veri)
+
             except Exception as e:
                 print(f"Veri okuma hatası: {e}")
                 time.sleep(1)
@@ -60,5 +85,6 @@ class ADC:
 if __name__ == "__main__":
     adc = ADC()
     adc.data_read()
+
 
 
