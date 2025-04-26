@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define Boyut 100 
+
+
+ 
+typedef struct Kuyruk {
+    int son;
+    int eleman[Boyut];
+} Kuyruklar;
+
+
+
+Kuyruklar yeniKuyruk;
+
+
+
+int isFull() {
+    if (yeniKuyruk.son >= Boyut - 1)
+        return -1;
+    return 1;}
+
+
+
+int isEmpty() {
+    if (yeniKuyruk.son == -1)
+        return -1;
+    return 1;}
+
+
+
+void enqueue(int ekle) {
+    
+	if (isFull() == -1) {
+        printf("Kuyruk dolu!\n");}
+        
+	 else {
+        yeniKuyruk.son++;
+        yeniKuyruk.eleman[yeniKuyruk.son] = ekle;}}
+
+
+
+int dequeue() {
+	
+    if (isEmpty() == -1) {
+        printf("Kuyruk bos!\n");
+        return -1;} 
+        
+	else {
+        int cikarilanEleman = yeniKuyruk.eleman[0];
+        for (int i = 1; i <= yeniKuyruk.son; i++) {
+            yeniKuyruk.eleman[i - 1] = yeniKuyruk.eleman[i];}
+            
+        yeniKuyruk.son--;
+        return cikarilanEleman;}}
+
