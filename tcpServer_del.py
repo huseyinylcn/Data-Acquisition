@@ -13,7 +13,7 @@ server_socket.listen(1)
 
 print(f"Sunucu {PORT} portunu dinliyor...")
 
-# Bağlantı bekle
+
 conn, addr = server_socket.accept()
 print(f"{addr} bağlandı.")
 
