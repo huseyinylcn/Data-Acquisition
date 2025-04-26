@@ -1,4 +1,6 @@
 import socket
+import csv
+import time
 
 # Sunucu IP ve Port ayarları
 HOST = '0.0.0.0'  # Tüm IP'lerden gelen bağlantılara izin ver
@@ -15,11 +17,28 @@ print(f"Sunucu {PORT} portunu dinliyor...")
 conn, addr = server_socket.accept()
 print(f"{addr} bağlandı.")
 
+# CSV dosyasının adı
+csv_file = "veri.log"
+
 while True:
-    data = conn.recv(1024)  # Veri al
-    if not data:
+    try:
+        data = conn.recv(1024)  # Veri al
+        if not data:
+            break
+            
+        received_data = data.decode()
+      
+        
+        # Alınan veriyi CSV dosyasına yaz
+        with open(csv_file, 'a', newline='') as file:
+
+            file.write(received_data)
+            
+    except Exception as e:
+        print(f"Hata oluştu: {e}")
         break
-    print("Gelen veri:", data.decode())
 
-
+# Bağlantıyı kapat
 conn.close()
+server_socket.close()
+print("Sunucu kapatıldı.")
