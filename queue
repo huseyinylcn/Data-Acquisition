@@ -1,56 +1,92 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define Boyut 100 
 
 
- 
-typedef struct Kuyruk {
+
+// Sensör verilerini tutan yapı
+typedef struct {
+    int zaman;        
+    float x_sensor;   
+    float y_sensor;   
+    float z_sensor;  
+} SensorVerisi;
+
+
+
+// Kuyruk yapısı
+typedef struct {
     int son;
-    int eleman[Boyut];
+    SensorVerisi* eleman;
 } Kuyruklar;
 
 
 
-Kuyruklar yeniKuyruk;
+// Kuyruk oluşturma fonksiyonu
+Kuyruklar* createQueue(int boyut) {
+    Kuyruklar* kuyruk = (Kuyruklar*)malloc(sizeof(Kuyruklar)); 
+    kuyruk->son = -1;
+    kuyruk->eleman = (SensorVerisi*)malloc(boyut * sizeof(SensorVerisi)); 
+    return kuyruk;
+}
 
 
 
-int isFull() {
-    if (yeniKuyruk.son >= Boyut - 1)
-        return -1;
-    return 1;}
+// Kuyruk dolu mu?
+int isFull(Kuyruklar* kuyruk, int boyut) {
+    if (kuyruk->son >= boyut - 1)
+        return -1;  // Dolu
+    return 1;  // Dolu değil
+}
 
 
 
-int isEmpty() {
-    if (yeniKuyruk.son == -1)
-        return -1;
-    return 1;}
+// Kuyruk boş mu?
+int isEmpty(Kuyruklar* kuyruk) {
+    if (kuyruk->son == -1)
+        return -1;  // Boş
+    return 1;  // Boş değil
+}
 
 
 
-void enqueue(int ekle) {
-    
-	if (isFull() == -1) {
+
+// Kuyruğa sensör verisi ekleme fonksiyonu
+void enqueue(Kuyruklar* kuyruk, int boyut, int zaman, float x, float y, float z) {
+    if (isFull(kuyruk, boyut) == -1) {
         printf("Kuyruk dolu!\n");}
-        
-	 else {
-        yeniKuyruk.son++;
-        yeniKuyruk.eleman[yeniKuyruk.son] = ekle;}}
-
-
-
-int dequeue() {
-	
-    if (isEmpty() == -1) {
-        printf("Kuyruk bos!\n");
-        return -1;} 
-        
+		 
 	else {
-        int cikarilanEleman = yeniKuyruk.eleman[0];
-        for (int i = 1; i <= yeniKuyruk.son; i++) {
-            yeniKuyruk.eleman[i - 1] = yeniKuyruk.eleman[i];}
-            
-        yeniKuyruk.son--;
-        return cikarilanEleman;}}
+        kuyruk->son++;
+        kuyruk->eleman[kuyruk->son].zaman = zaman;
+        kuyruk->eleman[kuyruk->son].x_sensor = x;
+        kuyruk->eleman[kuyruk->son].y_sensor = y;
+        kuyruk->eleman[kuyruk->son].z_sensor = z;}
+}
 
+
+
+// Kuyruktan sensör verisi çıkarma fonksiyonu
+SensorVerisi dequeue(Kuyruklar* kuyruk) {
+    SensorVerisi cikarilanEleman;
+    
+    if (isEmpty(kuyruk) == -1) {
+        printf("Kuyruk boş!\n");
+        cikarilanEleman.zaman = -1;  // Geçerli olmayan bir değer
+        return cikarilanEleman;}
+		 
+	else {
+        cikarilanEleman = kuyruk->eleman[0];
+        
+        for (int i = 1; i <= kuyruk->son; i++) {
+            kuyruk->eleman[i - 1] = kuyruk->eleman[i];}
+            
+        kuyruk->son--;
+        return cikarilanEleman;
+    }}
+
+
+
+// Kuyruk bellekten temizleme fonksiyonu
+void freeQueue(Kuyruklar* kuyruk) {
+    free(kuyruk->eleman);  
+    free(kuyruk); }
